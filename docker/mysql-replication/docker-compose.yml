@@ -1,0 +1,42 @@
+version: "3"
+services:
+  db-master:
+    image: mysql:8.0.29
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'db'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'password'
+    ports:
+      - '3306:3306'
+    volumes:
+      - db_master:/var/lib/mysql
+      - db_master:/var/lib/mysql-files
+    networks:
+      - mysql_net
+
+  db-slave:
+    image: mysql:8.0.29
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'db'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'password'
+    ports:
+      - '3307:3306'
+    volumes:
+      - db_slave:/var/lib/mysql
+      - db_slave:/var/lib/mysql-files
+    networks:
+      - mysql_net
+
+# Names our volume
+volumes:
+  db_master:
+  db_slave:
+
+networks:
+  mysql_net:
+    driver: bridge
