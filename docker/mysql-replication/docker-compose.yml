@@ -1,31 +1,39 @@
 version: "3"
 services:
   db-master:
+    container_name: mysql_master
     image: mysql:8.0.29
     restart: always
     environment:
-      MYSQL_DATABASE: 'db'
       MYSQL_USER: 'user'
       MYSQL_PASSWORD: 'password'
       MYSQL_ROOT_PASSWORD: 'password'
     ports:
       - '3306:3306'
+    command: # 명령어 실행
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
     volumes:
       - db_master:/var/lib/mysql
       - db_master:/var/lib/mysql-files
+      - ./master:/etc/mysql/conf.d
     networks:
       - mysql_net
 
   db-slave:
+    container_name: mysql_slave
     image: mysql:8.0.29
     restart: always
     environment:
-      MYSQL_DATABASE: 'db'
       MYSQL_USER: 'user'
       MYSQL_PASSWORD: 'password'
       MYSQL_ROOT_PASSWORD: 'password'
     ports:
       - '3307:3306'
+    command: # 명령어 실행
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - ./slave:/etc/mysql/conf.d
     volumes:
       - db_slave:/var/lib/mysql
       - db_slave:/var/lib/mysql-files
