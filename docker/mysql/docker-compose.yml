@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+  db:
+    container_name: mysql_docker
+    image: mysql:5.7
+    ports:
+      - 3306:3306
+    volumes:
+      - ./db/conf.d:/etc/mysql/conf.d
+      - ./db/data:/var/lib/mysql
+      - ./my.cnf:/etc/mysql/my.cnf      
+    env_file: .env
+    environment:
+      TZ: Asia/Seoul
+    networks:
+      - backend
+    restart: always
+    command: # 명령어 실행
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+networks:
+  backend:
