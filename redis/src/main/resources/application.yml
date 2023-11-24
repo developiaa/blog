@@ -1,0 +1,13 @@
+app:
+  datasource:
+    redis:
+      sentinel:
+        nodes:
+          - host: localhost
+            port: 26381
+          - host: localhost
+            port: 26382
+          - host: localhost
+            port: 26383
+        master: developia
+        password: password
